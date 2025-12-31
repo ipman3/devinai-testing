@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as HotelDetailRouteImport } from './routes/hotel-detail'
 import { Route as BookingConfirmedRouteImport } from './routes/BookingConfirmed'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as DemoDetailRouteImport } from './routes/demo/detail'
 
+const HotelDetailRoute = HotelDetailRouteImport.update({
+  id: '/hotel-detail',
+  path: '/hotel-detail',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookingConfirmedRoute = BookingConfirmedRouteImport.update({
   id: '/BookingConfirmed',
   path: '/BookingConfirmed',
@@ -38,12 +44,14 @@ const DemoDetailRoute = DemoDetailRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/BookingConfirmed': typeof BookingConfirmedRoute
+  '/hotel-detail': typeof HotelDetailRoute
   '/demo/detail': typeof DemoDetailRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/BookingConfirmed': typeof BookingConfirmedRoute
+  '/hotel-detail': typeof HotelDetailRoute
   '/demo/detail': typeof DemoDetailRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
@@ -51,18 +59,30 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/BookingConfirmed': typeof BookingConfirmedRoute
+  '/hotel-detail': typeof HotelDetailRoute
   '/demo/detail': typeof DemoDetailRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/BookingConfirmed' | '/demo/detail' | '/demo/tanstack-query'
+  fullPaths:
+    | '/'
+    | '/BookingConfirmed'
+    | '/hotel-detail'
+    | '/demo/detail'
+    | '/demo/tanstack-query'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/BookingConfirmed' | '/demo/detail' | '/demo/tanstack-query'
+  to:
+    | '/'
+    | '/BookingConfirmed'
+    | '/hotel-detail'
+    | '/demo/detail'
+    | '/demo/tanstack-query'
   id:
     | '__root__'
     | '/'
     | '/BookingConfirmed'
+    | '/hotel-detail'
     | '/demo/detail'
     | '/demo/tanstack-query'
   fileRoutesById: FileRoutesById
@@ -70,12 +90,20 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookingConfirmedRoute: typeof BookingConfirmedRoute
+  HotelDetailRoute: typeof HotelDetailRoute
   DemoDetailRoute: typeof DemoDetailRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/hotel-detail': {
+      id: '/hotel-detail'
+      path: '/hotel-detail'
+      fullPath: '/hotel-detail'
+      preLoaderRoute: typeof HotelDetailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/BookingConfirmed': {
       id: '/BookingConfirmed'
       path: '/BookingConfirmed'
@@ -110,6 +138,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookingConfirmedRoute: BookingConfirmedRoute,
+  HotelDetailRoute: HotelDetailRoute,
   DemoDetailRoute: DemoDetailRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
